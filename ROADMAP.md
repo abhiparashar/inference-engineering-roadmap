@@ -43,6 +43,8 @@ Two things run in parallel with every phase and never stop:
 ## Phase 0 — Systems & ML Foundations
 *Goal: stop being scared of C-level concepts and tensors. This phase is short if you already code comfortably in Python and know basic linear algebra.*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-0/`](phases/phase-0/README.md) — 7 lessons that teach every bullet below from scratch, with runnable experiments.
+
 ### Learn (plain English)
 - **How a computer actually runs your Python**: process vs thread, GIL, syscalls, memory (stack/heap), why Python is slow and C/CUDA are fast.
 - **Concurrency vs parallelism**: async I/O (what FastAPI/uvicorn use) vs true parallel compute (what GPUs do). Inference servers live and die by this distinction — an inference server is I/O-bound while waiting for the network, but the model *forward pass* is compute-bound.
