@@ -68,6 +68,8 @@ Two things run in parallel with every phase and never stop:
 ## Phase 1 — Transformer Internals & Inference Math
 *Goal: know exactly what happens, tensor by tensor, when a model generates one token. Everything downstream (KV-cache, batching, quantization) is meaningless without this.*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-1/`](phases/phase-1/README.md) — 10 lessons that build the transformer, the KV-cache, and the inference math from scratch.
+
 ### Learn (plain English)
 - **Attention mechanism**: Query/Key/Value, softmax(QK^T/√d)V. Understand this as *"for each token, look back at every previous token and decide how much to weight it."*
 - **Autoregressive decoding**: LLMs generate one token at a time, each new token depends on all previous ones → this is why LLM inference is fundamentally sequential and latency-sensitive, unlike a single-shot image classifier.
@@ -96,6 +98,8 @@ Two things run in parallel with every phase and never stop:
 
 ## Phase 2 — GPU Architecture & Low-Level Performance
 *Goal: understand the hardware your model actually runs on. This is what separates people who "use vLLM" from people who can explain *why* vLLM is fast and could contribute to it.*
+
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-2/`](phases/phase-2/README.md) — 10 lessons taking you from "what is an SM" to plotting a measured roofline and writing a fused Triton kernel.
 
 ### Learn (plain English)
 - **GPU vs CPU**: CPU = few powerful cores optimized for latency/branching. GPU = thousands of simple cores (organized into Streaming Multiprocessors, SMs) optimized for throughput on parallel, branch-free math — exactly what matrix multiplication is.
