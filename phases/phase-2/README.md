@@ -88,4 +88,4 @@ Both are specified in [lesson 9](09-build-roofline-and-triton-kernel.md).
 
 ---
 
-Next after this: **[Phase 3 — Serving Fundamentals: Batching, Queueing, Scheduling](../../ROADMAP.md#phase-3--serving-fundamentals-batching-queueing-scheduling)**. Phase 2 tells you the GPU is starved at batch 1; Phase 3 is the systems answer — keep it fed, without wrecking tail latency.
+Next after this: **[Phase 3 — Serving Fundamentals: Batching, Queueing & Scheduling](../phase-3/README.md)**. Phase 2 tells you the GPU is starved at batch 1; Phase 3 is the systems answer — keep it fed, without wrecking tail latency.
