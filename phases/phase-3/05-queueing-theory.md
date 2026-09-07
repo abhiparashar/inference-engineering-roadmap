@@ -89,7 +89,7 @@ That single insight explains an enormous amount of real behavior:
 
 - Why LLM serving has famously bad tails even at modest load.
 - Why `max_tokens` caps are a *latency* control, not just a cost control: they truncate `C_s²`.
-- Why separating traffic classes works so well (short/interactive vs long/batch on different pools): splitting a heavy-tailed workload into two low-variance workloads shrinks the variability term for both. This is the strongest argument for the routing policies in [lesson 6](README.md).
+- Why separating traffic classes works so well (short/interactive vs long/batch on different pools): splitting a heavy-tailed workload into two low-variance workloads shrinks the variability term for both. This is the strongest argument for the routing policies in [lesson 6](06-scheduling-policies-and-admission-control.md).
 - Why continuous batching helps the tail even at fixed throughput: it decouples each sequence's completion from its neighbours', so a long generation no longer injects its variance into everyone else's wait.
 
 ---
@@ -124,7 +124,7 @@ The right procedure: pick your SLO (say p99 TTFT ≤ 500 ms, p99 ITL ≤ 50 ms),
 
 Two more failure patterns that fall straight out of the math.
 
-**Head-of-line blocking.** In FCFS with a heavy-tailed service distribution, a short request stuck behind a long one waits for work it has nothing to do with. From [lesson 2](02-static-batching.md), a static batch is the extreme form. Even with continuous batching, an admission decision that spends the whole token budget on one 8k-token prefill blocks everyone else's first token. Mitigations are scheduling policy — shortest-job-first-ish ordering, priority classes, preemption, fair-share — and each one trades fairness for tail latency in a way you must choose deliberately ([lesson 6](README.md)).
+**Head-of-line blocking.** In FCFS with a heavy-tailed service distribution, a short request stuck behind a long one waits for work it has nothing to do with. From [lesson 2](02-static-batching.md), a static batch is the extreme form. Even with continuous batching, an admission decision that spends the whole token budget on one 8k-token prefill blocks everyone else's first token. Mitigations are scheduling policy — shortest-job-first-ish ordering, priority classes, preemption, fair-share — and each one trades fairness for tail latency in a way you must choose deliberately ([lesson 6](06-scheduling-policies-and-admission-control.md)).
 
 **Deep queues don't add capacity; they add latency.** This is the most common instinctive mistake. A queue absorbs *bursts*; it cannot fix `λ > μ`. If arrivals exceed capacity, the queue grows without bound and every queued request eventually exceeds a timeout — so you spend 100% of your GPU producing answers that nobody is still waiting for. That's the classic **congestive collapse**: goodput falls to zero while utilization reads 100%.
 

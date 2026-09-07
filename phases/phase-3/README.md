@@ -56,8 +56,8 @@ And one discipline sits above all of it: **a serving number without a stated off
 | 3 | [Dynamic batching](03-dynamic-batching.md) | "Waiting T ms to form a batch only helps if `λ·T` is comparable to the batch size — and it fixes arrival misalignment only. For fixed-shape models it's the right answer; for LLMs it isn't enough." |
 | 4 | [Continuous batching (iteration-level scheduling)](04-continuous-batching.md) | "Batch at the iteration, not the request: every decode step, admit newly queued sequences into freed slots and evict finished ones. I can trace vLLM's `schedule()` and say what preempts what." |
 | 5 | [Queueing theory for inference](05-queueing-theory.md) | "`L = λW`. Latency scales as `1/(1−ρ)`, so at 95% utilization mean wait is 20× service time and p99 is far worse — and bigger batches raise throughput *and* p99 at the same time." |
-| 6 | Scheduling policies & admission control | *(next commit)* |
-| 7 | Measuring it honestly: load generation & percentiles | *(next commit)* |
+| 6 | [Scheduling policies & admission control](06-scheduling-policies-and-admission-control.md) | "A scheduler answers four questions — order, step budget, admission, preemption. FCFS is default because output length is unknown; priority moves latency between classes rather than creating capacity; and under overload only admission control helps: bounding the queue plus dropping doomed requests was 19× goodput." |
+| 7 | [Measuring it honestly: load generation & percentiles](07-measuring-honestly.md) | "Closed-loop clients can't measure overload — coordinated omission made a 19 s p99 look like 306 ms. I generate open-loop at fixed QPS, timestamp from intended arrival, check drift, need ≥1,000 samples for a p99, and report goodput, which peaks while throughput is still rising." |
 | 8 | Build: naive vs dynamic-batched FastAPI server | *(next commit)* |
 | 9 | Build: a tiny continuous-batching engine | *(next commit)* |
 | 10 | Exercises & exit artifact | *(next commit)* |

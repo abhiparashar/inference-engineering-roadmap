@@ -148,7 +148,7 @@ Three fixes, in increasing order of ambition:
 2. **Prioritize decode over prefill** (TGI's `waiting_served_ratio`, `max_waiting_tokens`): admit new work only when the queue justifies the interruption. Simple, effective, and it makes the tradeoff a config value.
 3. **Disaggregation**: run prefill and decode on *different GPUs* — separate pools, KV transferred over the network. Each pool then batches a homogeneous workload with its own scaling. This is the frontier design (DistServe, Splitwise, vLLM/Dynamo P/D disaggregation) and it belongs to [Phase 6](../../ROADMAP.md#phase-6--distributed-inference-at-scale).
 
-Notice the pattern: once scheduling is per-iteration, the *composition* of each iteration becomes a design space. Chunked prefill, priority policies, and disaggregation are all answers to "what should this step contain?" — which is [lesson 6](README.md)'s subject.
+Notice the pattern: once scheduling is per-iteration, the *composition* of each iteration becomes a design space. Chunked prefill, priority policies, and disaggregation are all answers to "what should this step contain?" — which is [lesson 6](06-scheduling-policies-and-admission-control.md)'s subject.
 
 ---
 
