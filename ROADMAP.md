@@ -10,7 +10,10 @@
 - **Do not skip phases.** Each phase assumes the previous one is muscle memory, not just "read about it."
 - **Every phase has 4 parts**: Learn (plain-English + real sources) → Study real code (OSS) → Build (small + large project) → Internalize (best practices + self-check).
 - **Ratio discipline**: for every 1 hour reading, spend 3 hours building/profiling/reading source code. Top 1% engineers are distinguished by *hours spent inside a profiler and inside someone else's source code*, not by papers read.
+- **Every phase ends with a committed artifact** — a benchmark table, a profiler trace + writeup, or working code in this repo. Self-check questions are for you; artifacts are the proof. **No artifact = phase not finished.** This is also what you'll show in interviews.
 - Track your work in [`projects/`](projects/README.md) (code) and [`labs/`](labs/README.md) (exercises). Best-practice checklists live in [`playbooks/`](playbooks/).
+- New to this? Read [`GETTING-STARTED.md`](GETTING-STARTED.md) first — prerequisites and, critically, **how to get GPU access** (Phases 2, 4, 5, 6 need an NVIDIA GPU; an Apple Silicon Mac cannot run them).
+- Unknown acronym? [`GLOSSARY.md`](GLOSSARY.md). Consolidated papers/blogs/repos/tools, plus the OSS-contribution and career layer: [`resources/README.md`](resources/README.md).
 - Diagram of the whole track: [`assets/roadmap-diagram.md`](assets/roadmap-diagram.md).
 
 ---
@@ -141,7 +144,7 @@ Two things run in parallel with every phase and never stop:
 - `vllm-project/vllm` → `vllm/core/scheduler.py` — this *is* continuous batching, in Python, readable. Trace one request through `Scheduler.schedule()`.
 
 ### Build
-- **Small project**: Take your Phase-1 from-scratch GPT-2 (or just use HF `pipeline`) and build a FastAPI server with **two endpoints**: `/generate_naive` (processes one request at a time, blocking) and `/generate_batched` (a background asyncio worker that accumulates requests for up to `T` ms or `N` requests, runs them as a real batch). Load test both with `locust` or a raw `asyncio` client and produce a table of p50/p90/p99 latency and throughput. This project is provided fully working in [`projects/01-tiny-inference-server`](projects/01-tiny-inference-server) — implement your own version first, then diff against it.
+- **Small project**: Take your Phase-1 from-scratch GPT-2 (or just use HF `pipeline`) and build a FastAPI server with **two endpoints**: `/generate_naive` (processes one request at a time, blocking) and `/generate_batched` (a background asyncio worker that accumulates requests for up to `T` ms or `N` requests, runs them as a real batch). Load test both with `locust` or a raw `asyncio` client and produce a table of p50/p90/p99 latency and throughput. Commit that table — it's your Phase 3 exit artifact, and the first "real" inference-engineering result you'll have produced.
 - **Large project**: Extend the above into a **real continuous-batching engine**: maintain a pool of "in-flight" sequences, each with its own KV-cache, and at every decode step (a) advance every active sequence by one token, (b) evict finished sequences, (c) admit new queued requests into freed slots. Benchmark against your static/dynamic batching versions. This is literally a tiny vLLM scheduler.
 
 ### Best practices to internalize (see [`playbooks/benchmarking.md`](playbooks/benchmarking.md))
@@ -363,7 +366,14 @@ Pick at minimum **two** of these; each is a portfolio-defining project:
 - Newbie, part-time (10-15hr/week): ~2-3 weeks per phase, Phases 0-4 ≈ 3 months, Phases 5-10 ≈ 4-5 months (Phase 9 "Beyond LLMs" can be compressed to ~1 week of reading/labs if your target job is LLM-serving-specific, or expanded to a full phase if you want general inference-engineering breadth). **~7-8 months to a genuinely top-1% practical skillset.**
 - Do not rush Phases 2-4 — they are where the actual differentiation from "can call an API" engineers happens.
 
+## Run these two tracks in parallel with everything above
+1. **OSS contribution track** (start during Phase 5): docs fix → reproduce/triage a real perf bug with profiler evidence → add a benchmark/test → fix a small bug → implement a feature. A merged PR in vLLM/TGI/`llama.cpp` is the single most verifiable proof of top-1% skill. Step-by-step progression in [`resources/README.md`](resources/README.md).
+2. **Staying-current track** (forever): watch releases of `vllm`/`sglang`/`TensorRT-LLM`/`llama.cpp`/`flash-attention`, follow MLSys/OSDI/SOSP/NSDI proceedings and GTC talks, and read issue trackers — not just docs. Curated list in [`resources/README.md`](resources/README.md).
+
 ## Track your progress
 - [`projects/README.md`](projects/README.md) — index of every small/large project above, with status.
 - [`labs/README.md`](labs/README.md) — bite-sized hands-on exercises (mostly "go read this exact file in this exact repo and answer this question") per phase.
 - [`playbooks/`](playbooks/) — reusable checklists (benchmarking, profiling, production readiness) you should apply to *every* project above, not just once.
+- [`GETTING-STARTED.md`](GETTING-STARTED.md) — prerequisites, GPU access plan, cost discipline, model-size guidance.
+- [`GLOSSARY.md`](GLOSSARY.md) — every acronym in plain English.
+- [`resources/README.md`](resources/README.md) — all papers/books/blogs/repos/tools in one queue, plus OSS-contribution and interview/career mapping.
