@@ -64,7 +64,7 @@ The practical guidance:
 - **BF16 is the default for inference today.** Same exponent range as FP32, so values don't overflow/underflow and you don't need loss scaling. Supported on Ampere (A100) and newer.
 - **FP16 is fine and slightly more precise**, but its max value is ~65,504 — activations in big models can overflow. On older cards (T4, V100) it's your only tensor-core float option.
 - **TF32** is the sneaky one: on Ampere+, `torch.matmul` on FP32 tensors may *silently* run on tensor cores at reduced mantissa. Controlled by `torch.backends.cuda.matmul.allow_tf32`. Great for speed, and an occasional source of "why did my numbers change?"
-- **FP8 / INT8 / INT4** are [Phase 4](../../ROADMAP.md#phase-4--optimization-quantization-caching-speculative-decoding) territory — they need calibration and quality evaluation, not just a dtype flag.
+- **FP8 / INT8 / INT4** are [Phase 4](../../ROADMAP.md#phase-4--inference-optimization-techniques) territory — they need calibration and quality evaluation, not just a dtype flag.
 
 For inference specifically: **you almost never need FP32.** Inference has no gradients to accumulate and no optimizer state ([Phase 0 lesson 4](../phase-0/04-what-is-inference.md)), so the numerical fragility that forces mixed precision in training mostly doesn't apply.
 
@@ -106,7 +106,7 @@ To *prove* tensor cores ran, don't trust a flag — measure. If achieved TFLOP/s
 
 ## Where precision bites in production
 
-- **Numerics change.** FP16 and BF16 produce different results from FP32, and different *batch sizes* produce different results from each other (reduction order changes). This is why `temperature=0` isn't bit-reproducible on a busy server ([Phase 1 lesson 7](../phase-1/07-sampling.md)) and why "deterministic output" is an SLA you must think hard about before promising ([Phase 7](../../ROADMAP.md#phase-7--observability-reliability-and-cost)).
+- **Numerics change.** FP16 and BF16 produce different results from FP32, and different *batch sizes* produce different results from each other (reduction order changes). This is why `temperature=0` isn't bit-reproducible on a busy server ([Phase 1 lesson 7](../phase-1/07-sampling.md)) and why "deterministic output" is an SLA you must think hard about before promising ([Phase 7](../../ROADMAP.md#phase-7--observability-reliability-and-cost-sre-for-inference)).
 - **Softmax and LayerNorm accumulate in FP32** even in half-precision models — small dynamic-range-sensitive reductions are the one place people keep the extra bits. You'll see `.float()` inside those kernels in real code; now you know why.
 - **KV-cache dtype is its own decision.** Weights in BF16 with the KV-cache in FP8 is a common production config: the cache is what's eating your HBM ([lesson 2](02-gpu-memory-hierarchy.md)), so halving it doubles concurrency.
 - **Older GPUs constrain you.** T4/V100 have no BF16; T4 has no FP8. Before you plan a deployment, check the architecture's supported dtypes — a "cheap GPU" that can't run your dtype isn't cheap.

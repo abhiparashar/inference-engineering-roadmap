@@ -137,7 +137,7 @@ The GPU isn't the computer; it's a device on the other end of a wire.
 
 - Copying tensors between CPU and GPU (`.cpu()`, `.to("cuda")`, `.item()`, `print(tensor)`) is *expensive* and frequently *synchronizing* — it makes the CPU wait for the GPU to catch up. A single stray `.item()` inside a decode loop can cost more than the model's math.
 - "Offload the KV-cache to CPU RAM" is a real technique, and it's exactly this trade: more capacity, PCIe-limited speed.
-- Multi-GPU setups add **NVLink** (~900 GB/s on H100) precisely because PCIe is too slow for tensor parallelism — that's [Phase 6](../../ROADMAP.md#phase-6--distributed-inference).
+- Multi-GPU setups add **NVLink** (~900 GB/s on H100) precisely because PCIe is too slow for tensor parallelism — that's [Phase 6](../../ROADMAP.md#phase-6--distributed-inference-at-scale).
 
 Rule of thumb for the rest of the roadmap: **keep the data on the GPU, and keep the CPU out of the inner loop.**
 

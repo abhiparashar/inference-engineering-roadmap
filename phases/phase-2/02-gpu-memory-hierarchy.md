@@ -149,7 +149,7 @@ torch.cuda.memory_reserved()    / 1e9   # what the caching allocator holds from 
 torch.cuda.max_memory_allocated() / 1e9 # peak — the number that decides if you OOM
 ```
 
-The gap between `allocated` and `reserved` is PyTorch's caching allocator holding freed blocks for reuse. It's why `nvidia-smi` shows more memory used than your tensors account for, and why fragmentation is a real production failure mode — the problem PagedAttention solves in [Phase 4](../../ROADMAP.md#phase-4--optimization-quantization-caching-speculative-decoding).
+The gap between `allocated` and `reserved` is PyTorch's caching allocator holding freed blocks for reuse. It's why `nvidia-smi` shows more memory used than your tensors account for, and why fragmentation is a real production failure mode — the problem PagedAttention solves in [Phase 4](../../ROADMAP.md#phase-4--inference-optimization-techniques).
 
 ---
 
