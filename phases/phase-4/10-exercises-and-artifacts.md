@@ -96,7 +96,7 @@ Produce **at least Option A**; A + B is the strongest pair in the roadmap.
 - [ ] You measured at least one technique end-to-end with your own harness, predicted the result first, and explained the gap.
 - [ ] Your exit artifact is committed.
 
-Then go to **[Phase 5 — Production Serving Frameworks](../../ROADMAP.md#phase-5--production-serving-frameworks-read-the-masters-code)**. You now know what vLLM, TGI, TensorRT-LLM and SGLang are *doing* — Phase 5 is deploying, configuring, benchmarking and reading them, and every flag you meet (`--block-size`, `--enable-prefix-caching`, `--kv-cache-dtype`, `--quantization`, `--num-speculative-tokens`, `--enforce-eager`, `--max-num-batched-tokens`) is a lesson you've already done by hand.
+Then go to **[Phase 5 — Production Serving Frameworks](../phase-5/README.md)**. You now know what vLLM, TGI, TensorRT-LLM and SGLang are *doing* — Phase 5 is deploying, configuring, benchmarking and reading them, and every flag you meet (`--block-size`, `--enable-prefix-caching`, `--kv-cache-dtype`, `--quantization`, `--num-speculative-tokens`, `--enforce-eager`, `--max-num-batched-tokens`) is a lesson you've already done by hand.
 
 ---
 

@@ -210,9 +210,11 @@ Two things run in parallel with every phase and never stop:
 ## Phase 5 — Production Serving Frameworks (read the masters' code)
 *Goal: you should be able to deploy, configure, benchmark, and — critically — read/modify the source of every framework below. MAANG engineers rarely write inference engines from scratch; they extend and operate these.*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-5/`](phases/phase-5/README.md) — 11 lessons: the five-layer model of every serving stack, a file-by-file read of vLLM's V1 engine, flag-to-mechanism tuning with `/metrics` diagnosis, TGI's Rust router split, SGLang/RadixAttention and constrained decoding, TensorRT-LLM's build-time-vs-run-time tradeoff, Triton `config.pbtxt` and ensembles, Ray Serve composition, a method for reading and patching unfamiliar engine source, and a leveled two-engine shootout.
+
 | Framework | Who built it / uses it | What to specifically study |
 |---|---|---|
-| **vLLM** | UC Berkeley (Sky Computing Lab); now industry standard, used by many labs & startups | `scheduler.py`, `block_manager.py`, continuous batching + PagedAttention interplay |
+| **vLLM** | UC Berkeley (Sky Computing Lab); now industry standard, used by many labs & startups | `vllm/v1/core/sched/scheduler.py`, `vllm/v1/core/kv_cache_manager.py` + `block_pool.py`, continuous batching + PagedAttention interplay |
 | **TensorRT-LLM** | NVIDIA | Graph compilation, in-flight batching implementation, custom fused kernels, quantization toolkit (SmoothQuant/AWQ integration) |
 | **Triton Inference Server** | NVIDIA | Model repository config (`config.pbtxt`), dynamic batching config, multi-framework backend model, ensemble/pipeline models |
 | **Text Generation Inference (TGI)** | HuggingFace, powers HF Inference Endpoints | Rust router + Python model server split; how they separate scheduling (fast, Rust) from computation (Python/CUDA) |
