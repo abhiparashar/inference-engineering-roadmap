@@ -232,13 +232,14 @@ async def one_request(url, body, out):
 
 
 async def run(url, qps, duration, warmup, prompt_tokens, max_tokens, slo):
-    rnd = random.Random(0)
+    rnd = random.Random(0)                                     # max_tokens is a LIST: sampled per
+                                                               # request, so outputs are ragged
     results, tasks, t0 = [], [], time.perf_counter()
     while time.perf_counter() - t0 < duration:
         await asyncio.sleep(rnd.expovariate(qps))              # OPEN loop: never waits for a reply
         rec = {"t_intended": time.perf_counter(), "status": None}
         results.append(rec)
-        body = {"prompt": "word " * prompt_tokens, "max_tokens": max_tokens}
+        body = {"prompt": "word " * prompt_tokens, "max_tokens": rnd.choice(max_tokens)}
         tasks.append(asyncio.ensure_future(one_request(url, body, rec)))
     await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -249,8 +250,11 @@ async def run(url, qps, duration, warmup, prompt_tokens, max_tokens, slo):
         return
     P = lambda k, p: statistics.quantiles([r[k] for r in ok], n=100)[p - 1]
     span = max(r["e2e"] + r["t_intended"] for r in ok) - min(r["t_intended"] for r in ok)
-    first, last = ok[: len(ok) // 10], ok[-len(ok) // 10:]
-    drift = statistics.median([r["e2e"] for r in last]) / statistics.median([r["e2e"] for r in first])
+    first, last = ok[: max(len(ok) // 10, 5)], ok[-max(len(ok) // 10, 5):]
+    # drift uses TTFT: it tracks QUEUE growth. e2e also moves with output length, which is
+    # noise on a ragged workload.
+    drift = ((statistics.median([r["ttft"] for r in last]) + 1e-3)
+             / (statistics.median([r["ttft"] for r in first]) + 1e-3))
     print(f"qps={qps:<5} n={len(ok):<5} shed={len(shed):<4} "
           f"ttft p50={P('ttft',50)*1e3:7.0f} p90={P('ttft',90)*1e3:7.0f} p99={P('ttft',99)*1e3:8.0f}ms  "
           f"tpot p50={P('tpot',50)*1e3:6.1f}ms  itl p99={P('itl_p99',99)*1e3:7.1f}ms  "
@@ -266,23 +270,27 @@ if __name__ == "__main__":
     ap.add_argument("--duration", type=float, default=20.0)
     ap.add_argument("--warmup", type=float, default=3.0)
     ap.add_argument("--prompt-tokens", type=int, default=64)
-    ap.add_argument("--max-tokens", type=int, default=64)
+    ap.add_argument("--max-tokens", type=int, nargs="+", default=[64])
     ap.add_argument("--slo", type=float, default=0.5)
+    ap.add_argument("--settle", type=float, default=10.0)      # let the server drain between points
     a = ap.parse_args()
     for q in a.qps:
         asyncio.get_event_loop().run_until_complete(
             run(a.url, q, a.duration, a.warmup, a.prompt_tokens, a.max_tokens, a.slo))
+        time.sleep(a.settle)          # a backlog from the previous point would poison the next
 ```
 
-Seven design decisions in there, each fixing one of the four lies:
+Nine design decisions in there, each fixing one of the four lies:
 
 | Line | Decision | Fixes |
 |---|---|---|
 | `await asyncio.sleep(rnd.expovariate(qps))` then `ensure_future` | **open loop**: arrivals happen on schedule, never gated on replies | lie 1 |
 | `ttft = stamps[0] - t_intended` | latency measured from **intended** arrival | lie 1 |
 | `r["t_intended"] - t0 >= warmup` | warmup window discarded | lie 2 |
-| `drift = median(last decile) / median(first decile)` | **stability check** before any percentile is believed | lie 3 |
+| `time.sleep(a.settle)` between points | the previous point's **backlog** doesn't poison the next one | lie 2 |
+| `drift = median TTFT(last decile) / median TTFT(first decile)` | **stability check** before any percentile is believed; TTFT (not e2e) because only TTFT tracks the queue | lie 3 |
 | `if len(ok) < 20: ...raise duration` | refuses to print statistics it can't support | lie 4 |
+| `rnd.choice(max_tokens)` | output lengths are **ragged**, like real traffic — uniform outputs hide the biggest scheduling flaw there is | lie 4 |
 | `status != 200` counted as `shed`, not dropped silently | 429s are the load-shedding *result*, not an error to hide | honesty |
 | per-token `stamps`, so TTFT / TPOT / **ITL p99** are separate | the two bottlenecks never get averaged together | [lesson 1](01-what-a-serving-system-is.md) |
 
@@ -346,6 +354,8 @@ qps=5.0   n=172   shed=0    ttft p50=    291 p90=   1061 p99=    1625ms  tpot p5
 qps=6.0   n=202   shed=0    ttft p50=   1299 p90=   4316 p99=    5193ms  tpot p50=  11.5ms  itl p99=   12.1ms  e2e p99=  5.37s  out=   82.7 tok/s  goodput= 1.07/s  drift=11.4x  <-- UNSTABLE
 qps=7.0   n=234   shed=0    ttft p50=   4287 p90=   8845 p99=    9665ms  tpot p50=  11.5ms  itl p99=   12.4ms  e2e p99=  9.84s  out=   84.1 tok/s  goodput= 0.13/s  drift=10.9x  <-- UNSTABLE
 ```
+
+*(That run predates two harness fixes made while benchmarking the real servers in lessons 8-9: `--settle`, and drift computed on TTFT rather than e2e. With uniform 16-token outputs the two drift definitions agree closely, and every verdict below is unchanged — but the listing above is the current harness, so your own numbers will come from that version.)*
 
 Five things this run teaches, and every one of them generalizes to a real engine:
 

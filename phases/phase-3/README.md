@@ -58,9 +58,9 @@ And one discipline sits above all of it: **a serving number without a stated off
 | 5 | [Queueing theory for inference](05-queueing-theory.md) | "`L = λW`. Latency scales as `1/(1−ρ)`, so at 95% utilization mean wait is 20× service time and p99 is far worse — and bigger batches raise throughput *and* p99 at the same time." |
 | 6 | [Scheduling policies & admission control](06-scheduling-policies-and-admission-control.md) | "A scheduler answers four questions — order, step budget, admission, preemption. FCFS is default because output length is unknown; priority moves latency between classes rather than creating capacity; and under overload only admission control helps: bounding the queue plus dropping doomed requests was 19× goodput." |
 | 7 | [Measuring it honestly: load generation & percentiles](07-measuring-honestly.md) | "Closed-loop clients can't measure overload — coordinated omission made a 19 s p99 look like 306 ms. I generate open-loop at fixed QPS, timestamp from intended arrival, check drift, need ≥1,000 samples for a p99, and report goodput, which peaks while throughput is still rising." |
-| 8 | Build: naive vs dynamic-batched FastAPI server | *(next commit)* |
-| 9 | Build: a tiny continuous-batching engine | *(next commit)* |
-| 10 | Exercises & exit artifact | *(next commit)* |
+| 8 | [Build: naive vs dynamic-batched server](08-build-naive-vs-batched-server.md) | "I built both endpoints over one model path and load-tested them: 7.6× throughput and 9.9× goodput from batching, with ~1.8× worse per-user TPOT. I can name the four bugs — blocking the event loop, left-padding position IDs, unbounded queues, ignored cancellation." |
+| 9 | [Build: a tiny continuous-batching engine](09-build-continuous-batching-engine.md) | "Iteration-level scheduling in 200 lines: per-sequence KV, chunked prefill under a token budget, immediate eviction, recompute preemption. On ragged outputs it served 66 ms p50 TTFT where static batching took 122 s; on uniform outputs it *loses*, and I can explain why." |
+| 10 | [Exercises & exit artifact](10-exercises-and-artifacts.md) | "Here is my committed server, harness, four-curve comparison, goodput plot and methodology section — including what my setup could not isolate." |
 
 ---
 

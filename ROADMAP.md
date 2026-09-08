@@ -132,7 +132,7 @@ Two things run in parallel with every phase and never stop:
 ## Phase 3 — Serving Fundamentals: Batching, Queueing, Scheduling
 *Goal: this is where you become a "server engineer" for models, not just an ML person. This is the highest-leverage phase for interview-level and real-job skill.*
 
-> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-3/`](phases/phase-3/README.md) — lessons on serving metrics, static/dynamic/continuous batching, and the queueing math behind p99, with runnable simulators.
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-3/`](phases/phase-3/README.md) — 10 lessons: serving metrics, static/dynamic/continuous batching, queueing math behind p99, scheduling policies and admission control, honest load generation, and two builds (a dynamic-batched server and a tiny continuous-batching engine) with measured before/after numbers.
 
 ### Learn (plain English)
 - **Static batching**: group N requests, run them together, wait for the slowest to finish (padding wastes compute on shorter sequences). Simple but bad tail latency.
