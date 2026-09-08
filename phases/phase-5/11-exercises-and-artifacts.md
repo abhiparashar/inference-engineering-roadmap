@@ -111,7 +111,7 @@ Produce **Option A**. A + B is the strongest pair; C is cheap and disproportiona
 - [ ] You have explained one real issue's root cause from the source.
 - [ ] Your exit artifact is committed.
 
-Then go to **[Phase 6 — Distributed Inference at Scale](../../ROADMAP.md#phase-6--distributed-inference-at-scale)**. Everything so far has been one engine on one GPU, operated well. Phase 6 is what happens when the model doesn't fit on one GPU (tensor and pipeline parallelism), when one replica can't hold the traffic (routing, and prefix-aware sticky routing that breaks naive load balancers), and when prefill and decode want opposite hardware (disaggregation). Every flag you met here — `--tensor-parallel-size`, KV connectors, cache-event streams, `cacheTransceiver` — is a Phase 6 topic you've already seen the hook for.
+Then go to **[Phase 6 — Distributed Inference at Scale](../phase-6/README.md)**. Everything so far has been one engine on one GPU, operated well. Phase 6 is what happens when the model doesn't fit on one GPU (tensor and pipeline parallelism), when one replica can't hold the traffic (routing, and prefix-aware sticky routing that breaks naive load balancers), and when prefill and decode want opposite hardware (disaggregation). Every flag you met here — `--tensor-parallel-size`, KV connectors, cache-event streams, `cacheTransceiver` — is a Phase 6 topic you've already seen the hook for.
 
 ---
 
