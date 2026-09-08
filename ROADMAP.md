@@ -168,6 +168,8 @@ Two things run in parallel with every phase and never stop:
 ## Phase 4 — Inference Optimization Techniques
 *Goal: the actual toolbox of tricks MAANG/frontier labs use to make inference 10-100x cheaper. Each technique should be something you've implemented or at minimum benchmarked yourself, not just read about.*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-4/`](phases/phase-4/README.md) — 10 lessons: the decode cost model, quantization fundamentals and methods, KV-cache economics, PagedAttention, prefix caching/RadixAttention, speculative decoding, kernels and CUDA graphs, plus a tested paged KV-cache build with prefix sharing and copy-on-write.
+
 ### Learn (plain English)
 
 1. **Quantization** — store/compute weights (and sometimes activations) in fewer bits (FP16→INT8→INT4). Reduces memory footprint and memory-bandwidth pressure (remember: decode is bandwidth-bound, so this directly speeds up decode). Key methods to know by name and idea:
