@@ -238,6 +238,8 @@ Two things run in parallel with every phase and never stop:
 ## Phase 6 — Distributed Inference at Scale
 *Goal: single-GPU serving is the exception at frontier scale, not the rule. A 70B+ model doesn't fit on one GPU; a product with millions of users doesn't fit on one machine. This phase is "how OpenAI/Google/Meta/Anthropic actually run this."*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-6/`](phases/phase-6/README.md) — 11 lessons: sizing a deployment from arithmetic (`TP × usable − weights` = your KV budget), the seven collectives and the `α + β·bytes` cost of every fabric, tensor parallelism derived from the matmul, pipeline parallelism and the bubble, hybrid `DP×TP×PP×EP` layouts and MoE all-to-all, prefill/decode disaggregation for goodput, prefix-aware sticky routing, GPU-fleet autoscaling with minute-scale cold starts, multi-node failure modes, and a build combining hand-sharded TP with a sticky router.
+
 ### Learn (plain English)
 - **Tensor parallelism (TP)**: split individual weight matrices across GPUs (e.g. each GPU holds a slice of every attention head), requiring an all-reduce communication after each layer. Used *within* a node (fast NVLink/NVSwitch interconnect required).
 - **Pipeline parallelism (PP)**: split the model's *layers* across GPUs/nodes (GPU 1 has layers 1-10, GPU 2 has layers 11-20...). Introduces "bubble" idle time; needs micro-batching to hide it.
