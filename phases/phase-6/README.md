@@ -109,4 +109,4 @@ Also do the [Phase 6 labs](../../labs/README.md#phase-6-lab--distributed-inferen
 
 ---
 
-Next after this: **[Phase 7 — Observability, Reliability, and Cost](../../ROADMAP.md#phase-7--observability-reliability-and-cost-sre-for-inference)**. Phase 6 makes a fleet exist; Phase 7 is how you know it's healthy, what it costs per million tokens, and who gets paged when it isn't.
+Next after this: **[Phase 7 — Observability, Reliability, and Cost](../phase-7/README.md)**. Phase 6 makes a fleet exist; Phase 7 is how you know it's healthy, what it costs per million tokens, and who gets paged when it isn't.

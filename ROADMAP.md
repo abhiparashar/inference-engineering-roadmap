@@ -273,6 +273,8 @@ Two things run in parallel with every phase and never stop:
 ## Phase 7 — Observability, Reliability, and Cost (SRE for inference)
 *Goal: production inference systems are judged on SLOs, cost-per-token, and incident response — not benchmark numbers in isolation. This is the "boring" phase that actually gets you hired/promoted at MAANG.*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-7/`](phases/phase-7/README.md) — 12 lessons: the golden signals translated into TTFT/TPOT/ITL plus five error classes, Prometheus histograms with a bucket boundary at every SLO threshold, DCGM telemetry and why `GPU_UTIL` is a decoy, request-level tracing with `gen_ai.*` attributes and tail-based sampling, SLOs with multi-window burn-rate alerting, a symptom→cause diagnosis tree, the reliability toolkit (bounded queues, aligned timeouts, retry budgets, a progress watchdog, a degradation ladder), shadow/canary rollouts with quality gates that catch a "green dashboard" regression, cost per 1M tokens at the SLO, incident runbooks and GPU chaos testing, and a build combining the full observability stack with an automated canary diff report.
+
 ### Learn (plain English)
 - **The four golden signals** (Google SRE): latency, traffic, errors, saturation — applied to inference: TTFT/TPOT latency, QPS/tokens-per-sec traffic, error rate (OOMs, timeouts, malformed generations), GPU utilization/KV-cache occupancy as saturation.
 - **SLOs and error budgets**: define e.g. "p99 TTFT < 500ms" and treat exceeding your error budget as an incident, exactly like any other production service.
