@@ -125,10 +125,10 @@ You're done when you can, without notes:
 ## Projects that belong to this phase
 
 - **[16 — CPU-only serving shootout: ONNX Runtime quantized vs `llama.cpp` GGUF vs GPU FP16](../../projects/README.md)** (small): one model, three runtimes, honest latency/throughput/cost-per-unit-work numbers, plus the accuracy check that makes the comparison legitimate. Built in [lesson 11](11-build-rag-and-cpu-serving.md), part 1.
-- **[17 — Mini RAG pipeline with per-stage latency budgets, rate limiting, and prompt-injection guardrail](../../projects/README.md)** (large): embed → ANN search → LLM, with per-stage instrumentation, a budget and fallback per stage, a token-bucket limiter, and a guardrail you attacked yourself. Built in [lesson 11](11-build-rag-and-cpu-serving.md), part 2. **This is the Phase 9 exit artifact**, and the direct precursor to capstone 21.
+- **[17 — Mini RAG pipeline with per-stage latency budgets, rate limiting, and prompt-injection guardrail](../../projects/README.md)** (large): embed → ANN search → LLM, with per-stage instrumentation, a budget and fallback per stage, a token-bucket limiter, and a guardrail you attacked yourself. Built in [lesson 11](11-build-rag-and-cpu-serving.md), part 2. **This is the Phase 9 exit artifact**, and the direct precursor to [capstone 21](../phase-10/07-capstone-production-rag.md).
 
 Also do the [Phase 9 labs](../../labs/README.md#phase-9-lab--beyond-llms) — the GGUF CPU run, the ONNX Runtime execution-provider read, and the OWASP exercise pair directly with lessons 5, 8 and 9.
 
 ---
 
-Next after this: **[Phase 10 — Capstones](../../ROADMAP.md#phase-10--capstones-this-is-where-top-1-gets-proven)**. Nine phases of mechanics; the capstones are where you prove them on something nobody assigned you. Two of the five capstones are direct continuations of this phase: the multi-modal pipeline (lessons 3-4 plus Phase 5's composition) and the production-grade RAG service (lessons 6, 9, 10 plus Phase 7's observability and Phase 8's gates).
+Next after this: **[Phase 10 — Capstones](../phase-10/README.md)**. Nine phases of mechanics; the capstones are where you prove them on something nobody assigned you. Two of the five are direct continuations of this phase: the [multi-modal pipeline](../phase-10/04-capstone-multimodal-pipeline.md) (lessons 3-4 plus Phase 5's composition) and the [production-grade RAG service](../phase-10/07-capstone-production-rag.md) (lessons 6, 9, 10 plus Phase 7's observability and Phase 8's gates).

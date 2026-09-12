@@ -368,6 +368,8 @@ Two things run in parallel with every phase and never stop:
 
 ## Phase 10 — Capstones (this is where "top 1%" gets proven)
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-10/`](phases/phase-10/README.md) — 8 lessons: how to choose a capstone for the job you want and scope it so it finishes, the six-requirement engineering bar (reproducible, measured, fairly compared, failure-tested, priced, bounded) that separates evidence from a demo, one brief per capstone below with its proof obligation, acceptance criteria and specific pitfalls, and the write-up/portfolio lesson — repo layout, the numbers-first README, and the seven questions every capstone gets asked in an interview.
+
 Pick at minimum **two** of these; each is a portfolio-defining project:
 
 1. **Build "nano-vLLM"**: a from-scratch (small, ~1-2k lines) continuous-batching LLM server with PagedAttention-style block-based KV-cache management, prefix caching, and streaming OpenAI-compatible API (`/v1/chat/completions`). Benchmark it against real vLLM on the same hardware/model and write up where you land and why (you won't match it — explaining *why* with specific missing optimizations is the point).

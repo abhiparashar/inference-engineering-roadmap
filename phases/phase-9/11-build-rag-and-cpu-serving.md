@@ -2,7 +2,7 @@
 
 > **You'll be able to say:** "I built both. Project 16: one model on three runtimes with honest latency, throughput, accuracy and cost-per-unit-work numbers, and a crossover QPS where GPU becomes cheaper than CPU. Project 17: a RAG service with a per-stage budget table, a timeout and fallback on every stage, a multi-dimension token-bucket limiter, and an injection guardrail I attacked myself and documented the bypasses of. Both end in a numbers table, and both survived me deliberately breaking a dependency."
 
-Two projects, two afternoons each if you are efficient. They are deliberately complementary: project 16 is the *hardware and format* half of Phase 9 ([lessons 5](05-hardware-diversity.md), [8](08-model-formats-and-runtimes.md)); project 17 is the *pipeline, retrieval and security* half ([lessons 6](06-vector-search-and-ann.md), [9](09-security-and-multi-tenancy.md), [10](10-rag-and-agentic-serving.md)). Project 17 is also the direct precursor to capstone 21.
+Two projects, two afternoons each if you are efficient. They are deliberately complementary: project 16 is the *hardware and format* half of Phase 9 ([lessons 5](05-hardware-diversity.md), [8](08-model-formats-and-runtimes.md)); project 17 is the *pipeline, retrieval and security* half ([lessons 6](06-vector-search-and-ann.md), [9](09-security-and-multi-tenancy.md), [10](10-rag-and-agentic-serving.md)). Project 17 is also the direct precursor to [capstone 21](../phase-10/07-capstone-production-rag.md).
 
 Everything here runs on a laptop. A single rented GPU-hour makes project 16's comparison complete; without it, compare CPU runtimes against your recorded Phase 3/4 GPU numbers.
 
@@ -200,8 +200,8 @@ Run a fixed-QPS load test through each of these, and record client-visible behav
 | Built here | Reused in |
 |---|---|
 | Verified conversion + benchmark harness | any future hardware/runtime migration decision ([lesson 5](05-hardware-diversity.md)) |
-| Cost-per-unit-work and crossover analysis | the cost-optimization capstone (ROADMAP capstone 3) |
-| Per-stage budget + fallback ladder | the production RAG capstone (ROADMAP capstone 5), and every multi-stage pipeline you ever own |
+| Cost-per-unit-work and crossover analysis | the [cost-optimization capstone](../phase-10/05-capstone-cost-optimization.md) |
+| Per-stage budget + fallback ladder | the [production RAG capstone](../phase-10/07-capstone-production-rag.md), and every multi-stage pipeline you ever own |
 | Limiter + guardrails + bypass suite | the same capstone, plus any public-facing model API |
 | Per-stage instrumentation | [Phase 7](../phase-7/README.md)'s dashboards, now with stage attribution |
 | Index manifest + fail-closed startup | [Phase 8 lesson 7](../phase-8/07-model-registry-and-artifacts.md)'s artifact discipline, applied to retrieval |

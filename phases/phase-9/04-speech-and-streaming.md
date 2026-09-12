@@ -122,7 +122,7 @@ Text-to-speech inverts the shape — short input, long output, and the consumer 
 
 ## The voice-agent loop: where the budget actually goes
 
-The capstone-shaped system (also [ROADMAP capstone 2](../../ROADMAP.md#phase-10--capstones-this-is-where-top-1-gets-proven)) is ASR → LLM → TTS in a duplex loop. Human turn-taking tolerance is roughly 500-800 ms of silence before the conversation feels broken, and every stage eats into it:
+The capstone-shaped system (also [Phase 10 capstone 2](../phase-10/04-capstone-multimodal-pipeline.md)) is ASR → LLM → TTS in a duplex loop. Human turn-taking tolerance is roughly 500-800 ms of silence before the conversation feels broken, and every stage eats into it:
 
 ```
   user stops speaking

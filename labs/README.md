@@ -57,4 +57,4 @@ Do these *alongside* the matching phase in [`ROADMAP.md`](../ROADMAP.md), not in
 4. Read `facebookresearch/faiss` or `qdrant/qdrant` docs on HNSW. Answer: what's the recall/latency tradeoff knob, and why can't you get perfect recall and minimal latency simultaneously?
 
 ## Phase 10 — capstone labs
-No labs — this is project-only. See [`ROADMAP.md`](../ROADMAP.md) Phase 10 and [`projects/README.md`](../projects/README.md).
+No labs — this is project-only. See the [Phase 10 deep dive](../phases/phase-10/README.md), [`ROADMAP.md`](../ROADMAP.md) Phase 10, and [`projects/README.md`](../projects/README.md).

@@ -160,10 +160,10 @@ Update [`projects/README.md`](../../projects/README.md) status for 16 and 17 whe
 
 | Phase 9 idea | Comes back as |
 |---|---|
-| Workload-shape classification | choosing which capstone architecture fits the problem you pick (ROADMAP capstones 1-5) |
-| Per-stage budgets, timeouts, fallbacks | the production-grade RAG service (capstone 5) and the multi-modal pipeline (capstone 2) |
+| Workload-shape classification | choosing which capstone architecture fits the problem you pick ([Phase 10 lesson 1](../phase-10/01-choosing-a-capstone.md)) |
+| Per-stage budgets, timeouts, fallbacks | the [production-grade RAG service](../phase-10/07-capstone-production-rag.md) and the [multi-modal pipeline](../phase-10/04-capstone-multimodal-pipeline.md) |
 | Vision/speech pipeline stages | the STT → LLM → TTS or image → detection → LLM capstone, as Triton ensembles or Ray Serve graphs ([Phase 5 lessons 7-8](../phase-5/07-triton-inference-server.md)) |
-| Cost per unit of useful work, crossover analysis | the cost-optimization case study (capstone 3), where it is the entire deliverable |
+| Cost per unit of useful work, crossover analysis | the [cost-optimization case study](../phase-10/05-capstone-cost-optimization.md), where it is the entire deliverable |
 | Verified conversion as a build step | any capstone that compiles an engine or ships a quantized artifact, and its reproducibility claim |
 | ANN recall/latency frontier | retrieval quality gating in the RAG capstone's CI |
 | Limiter + guardrails + bypass suite | the security section every capstone write-up needs to be credible |
@@ -171,4 +171,4 @@ Update [`projects/README.md`](../../projects/README.md) status for 16 and 17 whe
 
 ---
 
-**Next:** the capstones — **[Phase 10 in the ROADMAP](../../ROADMAP.md#phase-10--capstones-this-is-where-top-1-gets-proven)**. Nine phases of mechanics are behind you: the model math (1), the hardware (2), the serving loop (3), the optimizations (4), the frameworks (5), the fleet (6), the operations (7), the delivery pipeline (8), and the breadth of the field (9). What remains is to build something nobody assigned you, measure it honestly, and write it up so that a stranger can tell exactly what you did and what it cost.
+**Next:** the capstones — **[Phase 10](../phase-10/README.md)**. Nine phases of mechanics are behind you: the model math (1), the hardware (2), the serving loop (3), the optimizations (4), the frameworks (5), the fleet (6), the operations (7), the delivery pipeline (8), and the breadth of the field (9). What remains is to build something nobody assigned you, measure it honestly, and write it up so that a stranger can tell exactly what you did and what it cost — which is what [Phase 10 lesson 2](../phase-10/02-engineering-standards.md) makes checkable.
