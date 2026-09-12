@@ -304,6 +304,8 @@ Two things run in parallel with every phase and never stop:
 ## Phase 8 — MLOps Glue: Containers, Orchestration, CI/CD, IaC
 *Goal: none of the above matters if you can't reliably ship it. This is the "unsexy 20%" that's actually required daily on the job.*
 
+> **Detailed deep-dive (basics → advanced, plain words):** [`phases/phase-8/`](phases/phase-8/README.md) — 11 lessons: the four independently-versioned artifacts behind every incident, the driver/runtime split that decides whether your image runs on someone else's GPU, cold start decomposed into five attackable stages, Kubernetes GPU scheduling with a liveness probe that catches a hung engine and a drain that doesn't truncate streams, autoscaling mechanics and warm-pool sizing, rollouts priced in GPUs with SLO-query gates, digest-addressed model artifacts with lineage and retention, CI quality *and* performance gates with thresholds derived from measured noise, Terraform with cost guardrails and quota realities, and a build whose acceptance test is a timed rollback.
+
 ### Learn (plain English)
 - **Docker for GPU workloads**: `nvidia-container-toolkit`, CUDA base images, multi-stage builds to keep images small, why `pip install torch` in a naive Dockerfile bloats images by gigabytes.
 - **Kubernetes basics for GPU scheduling**: node selectors/taints for GPU nodes, resource requests (`nvidia.com/gpu: 1`), Helm charts for deploying model servers.
@@ -318,6 +320,10 @@ Two things run in parallel with every phase and never stop:
 ### Build
 - **Small project**: Containerize your Phase-3/7 server properly: multi-stage Dockerfile, non-root user, health checks, `.dockerignore`, GPU-enabled base image, image size optimized.
 - **Large project**: Write a minimal Terraform config that provisions a GPU instance (e.g. AWS `g5`/`g4dn` or a cheaper cloud like Lambda Labs/RunPod's Terraform provider if available) + a GitHub Actions CI/CD pipeline that: on push, builds the Docker image, runs your Phase-3 benchmark as a regression gate (fail the build if p99 latency or throughput regresses beyond a threshold), and deploys on success. This "benchmark-as-CI-gate" pattern is exactly what serious inference teams do.
+
+### Self-check
+- What is your service's time to rollback, measured with a cold image cache — and what are three decisions, made weeks earlier, that would make rollback impossible?
+- Why does a chat-template change pass every unit test, smoke test and latency gate, and which gate catches it?
 
 ---
 ## Phase 9 — Beyond LLMs: Recsys/Vision/Speech, Hardware Diversity, Edge, and Security
